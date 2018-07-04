@@ -1,0 +1,113 @@
+@import '../libs/normalize.css/normalize.css'
+    
+@font-face
+    font-family: "OpenSans_regular"
+    src: "../fonts/OpenSansRegular/OpenSansRegular.ttf"
+    src: "../fonts/OpenSansRegular/OpenSansRegular.eot"
+    src: "../fonts/OpenSansRegular/OpenSansRegular.woff"
+
+@font-face
+    font-family: "OpenSans_bold"
+    src: "../fonts/OpenSansBold/OpenSansBold.ttf"
+    src: "../fonts/OpenSansBold/OpenSansBold.eot"
+    src: "../fonts/OpenSansBold/OpenSansBold.woff"
+
+$default-font: "OpenSans_regular", sans-serif
+$bold-font: "OpenSans_bold", sans-serif
+    
+body
+    min-width: 320px
+    overflow-x: hidden
+    box-sizing: border-box
+    font-family: $default-font
+    font-size: 16px
+    line-height: 1.6
+
+.container
+    width: 900px
+    margin: 0 auto
+
+.header
+    background-color: #F4F4F4
+    padding: 56px 0 19px 0
+    box-shadow: 0 5px 5px rgba(0,0,0,0.11)
+    &__box
+        display: flex
+        justify-content: space-between
+
+    &__btn
+        background-color: #0271c7
+        border: none
+        outline: none
+        color: #fff
+        padding: 8px 11px
+        font: 14px $bold-font
+        cursor: pointer
+        box-shadow: 0 1px 5px rgba(0,0,0,0.2)
+        &:first-child
+            margin-right: 10px
+
+    &__search
+        &-btn, &-inp
+            display: inline-block
+            vertical-align: middle
+        &-btn
+            display: inline-block
+            border: none
+            outline: none
+            background: url(../img/search.svg) center / 100% no-repeat
+            width: 18px
+            height: 18px
+            margin-right: 5px
+            cursor: pointer
+        &-inp
+            border: 1px solid #d2d2d2
+            border-radius: 5px
+            padding: 3px 5px
+            font-size: 14px
+            width: 200px
+            height: 26px
+            outline: none
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.1)
+
+.control
+    display: flex
+    align-items: center
+    margin-top: 30px
+    &__btn
+        width: 24px
+        height: 24px
+        cursor: pointer
+        &_left
+            background: url(../img/left-arrow.png) center / 100% no-repeat
+        &_right
+            background: url(../img/right-arrow.png) center / 100% no-repeat
+    &__date
+        margin: 0 10px
+        font-size: 26px
+
+    &__current-date
+        font-size: 14px
+        border: 1px solid #dfdfdf
+        padding: 1px 5px
+        border-radius: 5px
+        margin-left: 15px
+        box-shadow: inset 0 0 2px rgba(0,0,0,0.2)
+        color: #666666
+        cursor: pointer
+        outline: none
+
+.calendar
+    width: 100%
+    border-collapse: collapse
+    margin-top: 12px
+    td
+        width: 14.285%
+        border: 1px solid #ebebeb
+        height: 117px
+        padding: 5px
+        vertical-align: top
+    &__num
+        font-size: 12px
+        color: #999999
+
