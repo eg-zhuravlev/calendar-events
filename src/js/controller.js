@@ -4,11 +4,21 @@ class Controller {
         this.view = view;
 
         view.on('generate', this.generate.bind(this));
+        view.on('quickCreationEvent', this.quickCreatEvent.bind(this));
     }
 
-    generate() {
-        const arr = this.model.getCalendarMonth();
-        this.view.showCalendarMonth(arr);
+    generate(targetId) {
+        const arr = this.model.getCalendarMonth( targetId );
+        const str = this.model.getStrTags(arr);
+        const dateStr = this.model.getDateStr();
+
+        this.view.showCalendarMonth(str);
+        this.view.showDate(dateStr);
+    }
+
+    quickCreatEvent(value) {
+        const event = this.model.getObjectEvent(value);
+        console.log(this.model.events);
     }
 }
 
