@@ -23,7 +23,11 @@ class Model {
 
         currentDate.setMonth(currentDate.getMonth() - 1);
 
+        const currentMonth = currentDate.getMonth();
+
         for(var i = 1; i <= 42; i++){
+
+            if(i == 36 && currentDate.getMonth() != currentMonth) break;
             
             currentDay = currentDate.getDay();
             if(currentDay == 0) currentDay = 7;
@@ -45,7 +49,8 @@ class Model {
         var week = 0;
         for(var i = 0; i < arr.length; i++) {
 
-            let currentDay = arr[i].split('/')[0];
+            const currentDay = arr[i].split('/')[0];
+            const currentDate = arr[i];
 
             if(week == 7) {
                 newArr.push('</tr>');
@@ -55,21 +60,14 @@ class Model {
             if(week == 0) newArr.push('<tr>');
             
             week++;
-
-            var closeTd = '</td>';
-            // Добавление события
-            for(let i = 0; i < this.events.length; i++){
-                if(this.events[i].date == arr[i]) {
-                    let currentEvent = this.events[i];
-                    closeTd = `<div class="event"><span class="event__name">${currentEvent.name}</span><span class="event__time">${currentEvent.time}</span></div>${closeTd}`;
-                }
-            }
+            
+            const event = this.addEvent(currentDate);
 
             if(i < 7){
                 let day = week == 1 ? 'Понедельник' : week == 2 ? 'Вторник' : week == 3 ? 'Среда' : week == 4 ? 'Четверг' : week == 5 ? 'Пятница' : week == 6 ? 'Суббота' : week == 7 ? 'Воскресенье' : false;
-                newArr.push(`<td data-date="${arr[i]}"><span class="calendar__num">${day}, ${currentDay}</span>${closeTd}`);
+                newArr.push(`<td data-date="${currentDate}"><span class="calendar__num">${day}, ${currentDay}</span>${event}</td>`);
             } else {
-                newArr.push(`<td data-date="${arr[i]}"><span class="calendar__num">${currentDay}</span>${closeTd}`);
+                newArr.push(`<td data-date="${currentDate}"><span class="calendar__num">${currentDay}</span>${event}</td>`);
             };
             
         }
@@ -108,6 +106,15 @@ class Model {
         this.events.push(obj);
 
         return obj;
+    }
+
+    addEvent(date) {
+        const event = this.events.find(item => item.date == date);
+        
+        if(event === undefined) return '';
+
+        return `<div class="event"><span class="event__name">${event.name}</span><span class="event__time">${event.time}</span><span class="event__bg"></span></div>`
+        
     }
     
 }
