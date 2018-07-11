@@ -46,8 +46,8 @@ body
         box-shadow: 0 1px 5px rgba(0,0,0,0.2)
         &:first-child
             margin-right: 10px
-
-        &.active
+        &.active, &:active
+            transition: 0.1s
             background-color: #015da4
             box-shadow: inset 0 3px 3px rgba(0,0,0,0.3)
 
@@ -127,6 +127,7 @@ body
     position: absolute
     bottom: -123px
     display: none
+    z-index: 99
     &.active
         display: block
 

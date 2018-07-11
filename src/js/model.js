@@ -2,7 +2,7 @@ class Model {
     constructor(){
         this.date = new Date();
         this.events = [];
-
+        this.today = this.date.getDate();
         this.date.setDate(1);
         this.date.setMonth(this.date.getMonth() + 1);
     }
@@ -18,8 +18,11 @@ class Model {
 
     getGivenMonthArray() {
         var calendarMonth = [],
-            currentDate = new Date(this.date),
+            currentDate = new Date(),
+            today = `${currentDate.getDate()}/${currentDate.getMonth()+1}/${currentDate.getFullYear()}`,
             currentDay;
+
+        currentDate.setDate(1);
 
         currentDate.setMonth(currentDate.getMonth() - 1);
 
@@ -102,6 +105,10 @@ class Model {
             time: arr[1].trim(),
             date: `${dateDay}/${dateMonth}/${dateYear}`
         };
+
+        const eventsSameDate = this.events.find(item => item.date == obj.date);
+        
+        if(eventsSameDate != undefined) return 'На заданное число уже есть событие !';
 
         this.events.push(obj);
 

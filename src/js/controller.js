@@ -18,7 +18,11 @@ class Controller {
 
     quickCreatEvent(value) {
         const event = this.model.getObjectEvent(value);
-        console.log(this.model.events);
+        if(typeof event == 'string') {
+            this.view.showError(event);
+        };
+        this.generate();
+        this.view.handleEventPopup();
     }
 }
 

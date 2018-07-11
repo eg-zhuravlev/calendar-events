@@ -21,6 +21,7 @@ class View extends EventEmitter {
         this.addEventBtn.addEventListener('click', this.handleEventPopup.bind(this));
         this.addEventPopupClose.addEventListener('click', this.handleEventPopup.bind(this));
         this.createEventBtn.addEventListener('click', this.handleQuickAddEvent.bind(this));
+        this.refreshBtn.addEventListener('click', this.generate.bind(this));
     }
 
     generate() {
@@ -51,9 +52,10 @@ class View extends EventEmitter {
         this.emit('quickCreationEvent', value);
     }
 
-    addEvent(event) {
-        
+    showError(str) {
+        alert(str);
     }
+
 }
 
 export default View;
