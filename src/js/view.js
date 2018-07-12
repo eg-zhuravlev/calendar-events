@@ -24,8 +24,18 @@ class View extends EventEmitter {
         this.refreshBtn.addEventListener('click', this.generate.bind(this));
     }
 
+    addEventListeners(event, elems, func) {
+
+        for(let i = 0; i < elems.length; i++) {
+            elems[i].addEventListener(event, func);
+        }
+
+    }
+
     generate() {
         this.emit('generate');
+
+        this.addEventListenerDate();
     }
 
     generateAnother(event) {
@@ -41,6 +51,12 @@ class View extends EventEmitter {
         this.currentDateStr.innerHTML = str;
     }
 
+    addEventListenerDate() {
+        const calendarItem = document.querySelectorAll('.calendar td');
+        
+        this.addEventListeners('click', calendarItem, this.handleEvent.bind(this));
+    }
+
     handleEventPopup() {
         this.addEventBtn.classList.toggle('active');
         this.addEventPopup.classList.toggle('active');
@@ -50,6 +66,12 @@ class View extends EventEmitter {
         const value = this.createEventInp.value;
         
         this.emit('quickCreationEvent', value);
+    }
+
+    handleEvent(event) {
+        const targetDate = event.target;
+        console.log(true);
+        this.emit('dateClick', targetDate);
     }
 
     showError(str) {

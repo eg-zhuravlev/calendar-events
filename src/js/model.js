@@ -2,7 +2,7 @@ class Model {
     constructor(){
         this.date = new Date();
         this.events = [];
-        this.today = this.date.getDate();
+        this.today = `${this.date.getDate()}/${this.date.getMonth()+1}/${this.date.getFullYear()}`;
         this.date.setDate(1);
         this.date.setMonth(this.date.getMonth() + 1);
     }
@@ -18,8 +18,7 @@ class Model {
 
     getGivenMonthArray() {
         var calendarMonth = [],
-            currentDate = new Date(),
-            today = `${currentDate.getDate()}/${currentDate.getMonth()+1}/${currentDate.getFullYear()}`,
+            currentDate = new Date(this.date),
             currentDay;
 
         currentDate.setDate(1);
@@ -38,8 +37,16 @@ class Model {
             if(currentDay > i){
                 currentDate.setDate(currentDate.getDate() - (currentDay - 1));
             };
-            
-            calendarMonth.push( `${currentDate.getDate()}/${currentDate.getMonth()+1}/${currentDate.getFullYear()}`);
+            const currentDateAbb = `${currentDate.getDate()}/${currentDate.getMonth()+1}/${currentDate.getFullYear()}`;
+            const event = this.addEvent(currentDateAbb);
+
+            const dayObj = {
+                date: currentDateAbb,
+                event: event,
+                today: currentDateAbb === this.today ? true : false
+            };
+
+            calendarMonth.push( dayObj );
             currentDate.setDate(currentDate.getDate() + 1);
             
         };
@@ -52,8 +59,10 @@ class Model {
         var week = 0;
         for(var i = 0; i < arr.length; i++) {
 
-            const currentDay = arr[i].split('/')[0];
-            const currentDate = arr[i];
+            const currentDay = arr[i].date.split('/')[0];
+            const currentDate = arr[i].date;
+            const event = arr[i].event || '';
+            const today = arr[i].today ? '<span class="td-bg today-bg"></span>' : '';
 
             if(week == 7) {
                 newArr.push('</tr>');
@@ -64,13 +73,12 @@ class Model {
             
             week++;
             
-            const event = this.addEvent(currentDate);
 
             if(i < 7){
                 let day = week == 1 ? 'Понедельник' : week == 2 ? 'Вторник' : week == 3 ? 'Среда' : week == 4 ? 'Четверг' : week == 5 ? 'Пятница' : week == 6 ? 'Суббота' : week == 7 ? 'Воскресенье' : false;
-                newArr.push(`<td data-date="${currentDate}"><span class="calendar__num">${day}, ${currentDay}</span>${event}</td>`);
+                newArr.push(`<td data-date="${currentDate}"><span class="calendar__num">${day}, ${currentDay}</span>${event}${today}</td>`);
             } else {
-                newArr.push(`<td data-date="${currentDate}"><span class="calendar__num">${currentDay}</span>${event}</td>`);
+                newArr.push(`<td data-date="${currentDate}"><span class="calendar__num">${currentDay}</span>${event}${today}</td>`);
             };
             
         }
@@ -118,9 +126,9 @@ class Model {
     addEvent(date) {
         const event = this.events.find(item => item.date == date);
         
-        if(event === undefined) return '';
+        if(event === undefined) return false;
 
-        return `<div class="event"><span class="event__name">${event.name}</span><span class="event__time">${event.time}</span><span class="event__bg"></span></div>`
+        return `<div class="event"><span class="event__name">${event.name}</span><span class="event__time">${event.time}</span><span class="td-bg event__bg"></span></div>`
         
     }
     
