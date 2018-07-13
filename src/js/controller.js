@@ -5,6 +5,7 @@ class Controller {
 
         view.on('generate', this.generate.bind(this));
         view.on('quickCreationEvent', this.quickCreatEvent.bind(this));
+        view.on('dateClick', this.dateEvent.bind(this));
     }
 
     generate(targetId) {
@@ -23,6 +24,10 @@ class Controller {
         };
         this.generate();
         this.view.handleEventPopup();
+    }
+    
+    dateEvent(date) {
+        
     }
 }
 

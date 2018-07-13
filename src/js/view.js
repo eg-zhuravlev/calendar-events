@@ -69,8 +69,8 @@ class View extends EventEmitter {
     }
 
     handleEvent(event) {
-        const targetDate = event.target;
-        console.log(true);
+        const targetDate = event.target.getAttribute('data-date');
+
         this.emit('dateClick', targetDate);
     }
 

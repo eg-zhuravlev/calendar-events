@@ -35,9 +35,13 @@
             <button class="control__current-date">Сегодня</button>
         </div>
         <table class="calendar">
-            <!-- <td><span class="calendar__num">4</span></td> -->
             <tbody></tbody>
         </table>
+        <div class="event">
+            <input type="text" class="event__name" value="Праздник труда !" placeholder="">
+            <input type="text" class="event__party" value="" placeholder="Имена участников">
+            
+        </div>
     </div>
     <script src="<%= htmlWebpackPlugin.files.chunks.main.entry %>"></script>
 </body>
