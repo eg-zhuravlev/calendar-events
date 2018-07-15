@@ -22,6 +22,7 @@ body
     font-family: $default-font
     font-size: 16px
     line-height: 1.6
+    height: 5000px
 
 .container
     width: 900px
@@ -100,6 +101,9 @@ body
         color: #666666
         cursor: pointer
         outline: none
+
+.calendar-wrap
+    position: relative
 
 .calendar
     width: 100%
@@ -195,6 +199,49 @@ body
 
 .today-bg
     background-color: #f4f4f4
+
+.event-detail
+    width: 300px
+    padding: 24px
+    box-shadow: 0 0 15px #999
+    //position: absolute
+    //left: -320px
+    //top: -19px
+    z-index: 3
+    background-color: #fff
+    &__inp
+        height: 26px
+        margin-bottom: 5px
+    &__inp,&__desc
+        padding-left: 6px
+        outline: none
+        border: 1px solid #ccc
+        background-color: #fff
+        display: block
+        width: calc(100% - 9px)
+        border-radius: 5px
+        &.completed
+            border: none
+
+    &__name
+        font-size: 18px
+        font-weight: bold
+
+    &__desc
+        margin: 36px 0 20px 0
+        height: 115px
+        resize: none
+
+    &__btn
+        background: linear-gradient(to bottom, #fff, #ededed)
+        border: 1px solid #a6a6a6
+        border-radius: 5px
+        margin-top: 8px
+        outline: none
+        font-size: 14px
+        cursor: pointer
+
+    &__save
+        margin-right: 12px
+
        
-
-

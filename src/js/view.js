@@ -15,13 +15,17 @@ class View extends EventEmitter {
         this.createEventBtn = document.getElementById('add-event__btn');
         this.createEventInp = document.getElementById('add-event__inp');
         this.currentDateStr = document.getElementsByClassName('control__date')[0];
+        this.currentDayBtn = document.getElementById('current-day-btn');
         
         this.controlNext.addEventListener('click', this.generateAnother.bind(this));
         this.controlPrev.addEventListener('click', this.generateAnother.bind(this));
+        this.currentDayBtn.addEventListener('click', this.generateAnother.bind(this));
+
         this.addEventBtn.addEventListener('click', this.handleEventPopup.bind(this));
         this.addEventPopupClose.addEventListener('click', this.handleEventPopup.bind(this));
         this.createEventBtn.addEventListener('click', this.handleQuickAddEvent.bind(this));
         this.refreshBtn.addEventListener('click', this.generate.bind(this));
+        
     }
 
     addEventListeners(event, elems, func) {

@@ -32,15 +32,19 @@
             <span class="control__btn control__btn_left" id="btn-prev"></span>
             <p class="control__date">Июнь 2018</p>
             <span class="control__btn control__btn_right" id="btn-next"></span>
-            <button class="control__current-date">Сегодня</button>
+            <button class="control__current-date" id="current-day-btn">Сегодня</button>
         </div>
-        <table class="calendar">
-            <tbody></tbody>
-        </table>
-        <div class="event">
-            <input type="text" class="event__name" value="Праздник труда !" placeholder="">
-            <input type="text" class="event__party" value="" placeholder="Имена участников">
-            
+        <div class="calendar-wrap">
+            <table class="calendar">
+                <tbody></tbody>
+            </table>
+            <div class="event-detail">
+                <input type="text" class="event-detail__name event-detail__inp completed" value="Праздник труда !" placeholder="" id="event-detail-name">
+                <input type="text" class="event-detail__party event-detail__inp" value="" placeholder="Имена участников" id="event-detail-party">
+                <textarea class="event-detail__desc" placeholder="Описание" id="event-detail-message"></textarea>
+                <button class="event-detail__save event-detail__btn" id="event-detail-save">Готово</button>
+                <button class="event-detail__del event-detail__btn" id="event-detail-del">Удалить</button>
+            </div>
         </div>
     </div>
     <script src="<%= htmlWebpackPlugin.files.chunks.main.entry %>"></script>

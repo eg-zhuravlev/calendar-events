@@ -9,7 +9,7 @@ class Controller {
     }
 
     generate(targetId) {
-        const arr = this.model.getCalendarMonth( targetId );
+        const arr = this.model.getCalendarMonth(targetId);
         const str = this.model.getStrTags(arr);
         const dateStr = this.model.getDateStr();
 

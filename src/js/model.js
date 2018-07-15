@@ -9,8 +9,13 @@ class Model {
 
     getCalendarMonth(targetId){
 
-        if(targetId == 'btn-next') this.date.setMonth(this.date.getMonth() + 1);
-        if(targetId == 'btn-prev') this.date.setMonth(this.date.getMonth() - 1);
+        if(targetId === 'btn-next') this.date.setMonth(this.date.getMonth() + 1);
+        if(targetId === 'btn-prev') this.date.setMonth(this.date.getMonth() - 1);
+        if(targetId === 'current-day-btn') {
+            let date = new Date();
+            date.setMonth(date.getMonth() + 1);
+            this.date.setTime(date.getTime());
+        };
 
         return this.getGivenMonthArray();
         
