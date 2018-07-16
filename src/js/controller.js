@@ -22,12 +22,16 @@ class Controller {
         if(typeof event == 'string') {
             this.view.showError(event);
         };
-        this.generate();
+        this.view.generate();
         this.view.handleEventPopup();
     }
     
     dateEvent(date) {
+        const event = this.model.getEvent(date);
         
+        if(event) {
+            this.view.showEventDetail(event);
+        }
     }
 }
 

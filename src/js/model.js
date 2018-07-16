@@ -136,6 +136,14 @@ class Model {
         return `<div class="event"><span class="event__name">${event.name}</span><span class="event__time">${event.time}</span><span class="td-bg event__bg"></span></div>`
         
     }
+
+    getEvent(date) {
+        const event = this.events.find(item => item.date == date);
+
+        if(event === undefined) return false;
+
+        return event;
+    }
     
 }
 

@@ -16,6 +16,15 @@ class View extends EventEmitter {
         this.createEventInp = document.getElementById('add-event__inp');
         this.currentDateStr = document.getElementsByClassName('control__date')[0];
         this.currentDayBtn = document.getElementById('current-day-btn');
+
+        /* Popup с формой детальной */
+        this.eventDetailPopup = document.getElementById('event-detail');
+        this.eventDetailName = document.getElementById('event-detail-name');
+        this.eventDetailTime = document.getElementById('event-detail-time');
+        this.eventDetailParty = document.getElementById('event-detail-party');
+        this.eventDetailDesc = document.getElementById('event-detail-message');
+        this.eventDetailCompleted = document.getElementById('event-detail-completed');
+        this.eventDetailDel = document.getElementById('event-detail-del');
         
         this.controlNext.addEventListener('click', this.generateAnother.bind(this));
         this.controlPrev.addEventListener('click', this.generateAnother.bind(this));
@@ -57,8 +66,8 @@ class View extends EventEmitter {
 
     addEventListenerDate() {
         const calendarItem = document.querySelectorAll('.calendar td');
-        
-        this.addEventListeners('click', calendarItem, this.handleEvent.bind(this));
+
+        this.addEventListeners('click', calendarItem, this.handleEventDetail.bind(this));
     }
 
     handleEventPopup() {
@@ -72,10 +81,25 @@ class View extends EventEmitter {
         this.emit('quickCreationEvent', value);
     }
 
-    handleEvent(event) {
+    handleEventDetail(event) {
         const targetDate = event.target.getAttribute('data-date');
 
         this.emit('dateClick', targetDate);
+    }
+
+    showEventDetail(event) {
+        this.eventDetailName.value = event.name;
+        this.eventDetailTime.value = event.time ? event.time : '';
+        this.eventDetailParty.value = event.party ? event.party : '';
+        this.eventDetailDesc.value = event.desc ? event.desc : '';
+
+        let dateItem = document.querySelector(`.calendar td[data-date='${event.date}']`);
+
+        dateItem.appendChild(this.eventDetailPopup);
+
+        console.log(event);
+        this.eventDetailPopup.classList.add('active');
+        
     }
 
     showError(str) {
