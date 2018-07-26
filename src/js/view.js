@@ -16,15 +16,6 @@ class View extends EventEmitter {
         this.createEventInp = document.getElementById('add-event__inp');
         this.currentDateStr = document.getElementsByClassName('control__date')[0];
         this.currentDayBtn = document.getElementById('current-day-btn');
-
-        /* Popup с формой детальной */
-        this.eventDetailPopup = document.getElementById('event-detail');
-        this.eventDetailName = document.getElementById('event-detail-name');
-        this.eventDetailTime = document.getElementById('event-detail-time');
-        this.eventDetailParty = document.getElementById('event-detail-party');
-        this.eventDetailDesc = document.getElementById('event-detail-message');
-        this.eventDetailCompleted = document.getElementById('event-detail-completed');
-        this.eventDetailDel = document.getElementById('event-detail-del');
         
         this.controlNext.addEventListener('click', this.generateAnother.bind(this));
         this.controlPrev.addEventListener('click', this.generateAnother.bind(this));
@@ -99,10 +90,7 @@ class View extends EventEmitter {
             elem.setAttribute(key, attr[key])
         };
 
-        console.log(elem);
-
         if(child) {
-            console.log(child);
             for(let i = 0; i < child.length; i++) {
                 elem.appendChild(child[i])
             };
@@ -159,29 +147,38 @@ class View extends EventEmitter {
 
     showEventDetail(event) {
 
-        // `<div class="event-detail" id="event-detail">
-        //     <input type="text" class="event-detail__name event-detail__inp completed" value="Праздник труда !" placeholder="" id="event-detail-name">
-        //     <input type="text" class="event-detail__time event-detail__inp completed" placeholder="Время" id="event-detail-time">
-        //     <input type="text" class="event-detail__party event-detail__inp" value="" placeholder="Имена участников" id="event-detail-party">
-        //     <textarea class="event-detail__desc" placeholder="Описание" id="event-detail-message"></textarea>
-        //     <button class="event-detail__completed event-detail__btn" id="event-detail-completed">Готово</button>
-        //     <button class="event-detail__del event-detail__btn" id="event-detail-del">Удалить</button>
-        // </div>`
 
-        // this.eventDetailName.value = event.name;
-        // this.eventDetailTime.value = event.time ? event.time : '';
-        // this.eventDetailParty.value = event.party ? event.party : '';
-        // this.eventDetailDesc.value = event.desc ? event.desc : '';
+        // <div class="event-detail" id="event-detail">
+        //         <input type="text" class="event-detail__name event-detail__inp completed" value="Праздник труда !" placeholder="" id="event-detail-name">
+        //         <input type="text" class="event-detail__time event-detail__inp completed" placeholder="Время" id="event-detail-time">
+        //         <input type="text" class="event-detail__party event-detail__inp" value="" placeholder="Имена участников" id="event-detail-party">
+        //         <textarea class="event-detail__desc" placeholder="Описание" id="event-detail-message"></textarea>
+        //         <button class="event-detail__completed event-detail__btn" id="event-detail-completed">Готово</button>
+        //         <button class="event-detail__del event-detail__btn" id="event-detail-del">Удалить</button>
+        //     </div>
 
-        // let dateItem = document.querySelector(`.calendar td[data-date='${event.date}']`);
+        const container = this.getEventElements();
+        this.eventDetailName = document.getElementById('event-detail-name');
+        this.eventDetailTime = document.getElementById('event-detail-time');
+        this.eventDetailParty = document.getElementById('event-detail-party');
+        this.eventDetailDesc = document.getElementById('event-detail-message');
+        this.eventDetailCompleted = document.getElementById('event-detail-completed');
+        this.eventDetailDel = document.getElementById('event-detail-del');
 
-        // dateItem.appendChild(this.eventDetailPopup);
+        container.getElementById('event-detail-name').value = event.name;
+        container.getElementById('event-detail-time').value = event.time ? event.time : '';
+        container.getElementById('event-detail-party').value = event.party ? event.party : '';
+        container.getElementById('event-detail-desc').value = event.desc ? event.desc : '';
 
-        // this.eventDetailPopup.classList.add('active');
+        let dateItem = document.querySelector(`.calendar td[data-date='${event.date}']`);
 
-        const elem = this.getEventElements();
+        dateItem.appendChild(container);
 
-        console.log(elem);
+        this.eventDetailPopup.classList.add('active');
+
+        
+
+        console.log(event);
         
     }
 
