@@ -207,7 +207,7 @@ body
     padding: 24px
     box-shadow: 0 0 15px #999
     position: absolute
-    left: -320px
+    left: 320px
     top: -19px
     z-index: 3
     background-color: #fff
@@ -224,17 +224,29 @@ body
         display: block
         width: calc(100% - 9px)
         border-radius: 5px
-        &.completed
+        margin-bottom: 10px
+        font-size: 14px
+        &[disabled='disabled']
             border: none
+        &::placeholder
+            color: #ccc
+        &:focus
+            border-color: #666
+            transition: 0.2s
 
     &__name
-        font-size: 18px
-        font-weight: bold
+        
+        &[disabled='disabled']
+            font-size: 22px
+            font-weight: bold
+            color: #000
+            margin-bottom: 0
 
     &__desc
         margin: 36px 0 20px 0
         height: 115px
         resize: none
+        padding: 6px 0 0 10px
 
     &__btn
         background: linear-gradient(to bottom, #fff, #ededed)
@@ -247,6 +259,16 @@ body
 
     &__completed
         margin-right: 12px
+
+    &__close
+        display: block
+        width: 10px
+        height: 10px
+        background: url(../img/close.svg) no-repeat
+        position: absolute
+        right: 8px
+        top: 8px
+        cursor: pointer
 
     &.active
         display: block

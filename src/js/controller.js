@@ -27,11 +27,15 @@ class Controller {
     }
     
     dateEvent(date) {
+        if(date === null) return false;
+
         const event = this.model.getEvent(date);
-        
-        if(event) {
-            this.view.showEventDetail(event);
-        }
+
+        let eventPopup = this.view.createEventDetailPopup(event);
+
+        if(event) eventPopup = this.view.updateEventDetailPopup(event, eventPopup);
+
+        this.view.showEventDetailPopup(date, eventPopup);
     }
 }
 

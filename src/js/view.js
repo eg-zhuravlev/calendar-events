@@ -99,86 +99,90 @@ class View extends EventEmitter {
         return elem;
     }
 
-    getEventElements() {
-        
+    createEventDetailPopup(event) {
+
         let eventNameInp = this.createElement('input', {
             type: 'text',
-            class: 'event-detail__name event-detail__inp completed',
-            id: 'event-detail-name'
+            class: 'event-detail__name event-detail__inp',
+            placeholder: 'Событие'
         });
 
         let eventTimeInp = this.createElement('input', {
             type: 'text',
-            class: 'event-detail__time event-detail__inp completed',
-            id: 'event-detail-time',
+            class: 'event-detail__time event-detail__inp',
             placeholder: 'Время'
         });
 
         let eventPartyInp = this.createElement('input', {
             type: 'text',
-            class: 'event-detail__party event-detail__inp completed',
-            id: 'event-detail-party',
+            class: 'event-detail__party event-detail__inp',
             placeholder: 'Имена участников'
         });
 
         let eventDescInp = this.createElement('textarea', {
             class: 'event-detail__desc',
-            id: 'event-detail-desc',
             placeholder: 'Описание'
         });
 
         let eventComletedBtn = this.createElement('button', {
             class: 'event-detail__completed event-detail__btn',
-            id: 'event-detail-completed'
         }, 'Готово');
 
         let eventDelBtn = this.createElement('button', {
             class: 'event-detail__del event-detail__btn',
-            id: 'event-detail-del'
         }, 'Удалить');
 
+        let eventCloseBtn = this.createElement('span', {
+            class: 'event-detail__close'
+        });
+
         let container = this.createElement('div', {
-            id: 'event-detail',
-            class: 'event-detail'
-        }, '', eventNameInp, eventTimeInp, eventPartyInp, eventDescInp, eventComletedBtn, eventDelBtn);
+            class: 'event-detail active'
+        }, '', eventNameInp, eventTimeInp, eventPartyInp, eventDescInp, eventComletedBtn, eventDelBtn, eventCloseBtn);
 
         return container;
     }
 
-    showEventDetail(event) {
+    updateEventDetailPopup(event, popup) {
+        let eventNameInp = popup.getElementsByClassName('event-detail__name')[0];
+        let eventTimeInp = popup.getElementsByClassName('event-detail__time')[0];
+        let eventPartyInp = popup.getElementsByClassName('event-detail__party')[0];
+        let eventDescInp = popup.getElementsByClassName('event-detail__desc')[0];
+        let popupChildrenText = popup.querySelectorAll('input, textarea');
 
+        eventNameInp.value = event.name;
 
-        // <div class="event-detail" id="event-detail">
-        //         <input type="text" class="event-detail__name event-detail__inp completed" value="Праздник труда !" placeholder="" id="event-detail-name">
-        //         <input type="text" class="event-detail__time event-detail__inp completed" placeholder="Время" id="event-detail-time">
-        //         <input type="text" class="event-detail__party event-detail__inp" value="" placeholder="Имена участников" id="event-detail-party">
-        //         <textarea class="event-detail__desc" placeholder="Описание" id="event-detail-message"></textarea>
-        //         <button class="event-detail__completed event-detail__btn" id="event-detail-completed">Готово</button>
-        //         <button class="event-detail__del event-detail__btn" id="event-detail-del">Удалить</button>
-        //     </div>
+        eventTimeInp.value = event.time ? event.time : '';
+        eventPartyInp.value = event.party ? event.party : '';
+        eventDescInp.value = event.desc ? event.desc : '';
 
-        const container = this.getEventElements();
-        this.eventDetailName = document.getElementById('event-detail-name');
-        this.eventDetailTime = document.getElementById('event-detail-time');
-        this.eventDetailParty = document.getElementById('event-detail-party');
-        this.eventDetailDesc = document.getElementById('event-detail-message');
-        this.eventDetailCompleted = document.getElementById('event-detail-completed');
-        this.eventDetailDel = document.getElementById('event-detail-del');
+        for(let i = 0; i < popupChildrenText.length; i++) {
+            if(popupChildrenText[i].value != '') {
+                console.log(popupChildrenText[i]);
+                popupChildrenText[i].setAttribute('disabled', 'disabled');
+            }
+        }
 
-        container.getElementById('event-detail-name').value = event.name;
-        container.getElementById('event-detail-time').value = event.time ? event.time : '';
-        container.getElementById('event-detail-party').value = event.party ? event.party : '';
-        container.getElementById('event-detail-desc').value = event.desc ? event.desc : '';
+        return popup;
+    }
 
-        let dateItem = document.querySelector(`.calendar td[data-date='${event.date}']`);
+    showEventDetailPopup(date, eventPopup) {
 
-        dateItem.appendChild(container);
+        let dateItem = document.querySelector(`.calendar td[data-date='${date}']`);
+        let dateItemEvent = dateItem.getElementsByClassName('event-detail');
+        let eventPopupActive = document.querySelectorAll('.event-detail.active');
 
-        this.eventDetailPopup.classList.add('active');
+        if(dateItem.querySelector('.event-detail.active')) return false;
 
-        
+        if(eventPopupActive.length > 0) {
+            eventPopupActive.forEach(item => item.classList.remove('active'))
+        };
 
-        console.log(event);
+        if(dateItemEvent.length > 0) {
+            dateItemEvent[0].classList.add('active');
+        } else {
+            dateItem.appendChild(eventPopup);
+        }
         
     }
 
