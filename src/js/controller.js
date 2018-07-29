@@ -6,6 +6,7 @@ class Controller {
         view.on('generate', this.generate.bind(this));
         view.on('quickCreationEvent', this.quickCreatEvent.bind(this));
         view.on('dateClick', this.dateEvent.bind(this));
+        view.on('checkEvent', this.checkEvent.bind(this));
     }
 
     generate(targetId) {
@@ -22,8 +23,31 @@ class Controller {
         if(typeof event == 'string') {
             this.view.showError(event);
         };
+
         this.view.generate();
         this.view.handleEventPopup();
+    }
+
+    checkEvent(obj) {
+        const event = this.model.getEvent(obj.date);
+        const newEvent = this.view.createEvent(obj.popup, obj.date);
+
+        if(event) {
+            console.log(newEvent);
+            this.updateEvent(newEvent);
+        } else {
+            this.addEvent(newEvent);
+        }
+
+        this.view.generate();
+    }
+
+    addEvent(event) {
+        this.model.addEvent(event);
+    }
+
+    updateEvent(event) {
+        this.model.updateEvent(event);
     }
     
     dateEvent(date) {
@@ -37,6 +61,8 @@ class Controller {
 
         this.view.showEventDetailPopup(date, eventPopup);
     }
+
+    
 }
 
 export default Controller;

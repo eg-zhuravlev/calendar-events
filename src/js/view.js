@@ -17,9 +17,9 @@ class View extends EventEmitter {
         this.currentDateStr = document.getElementsByClassName('control__date')[0];
         this.currentDayBtn = document.getElementById('current-day-btn');
         
-        this.controlNext.addEventListener('click', this.generateAnother.bind(this));
-        this.controlPrev.addEventListener('click', this.generateAnother.bind(this));
-        this.currentDayBtn.addEventListener('click', this.generateAnother.bind(this));
+        this.controlNext.addEventListener('click', this.generate.bind(this));
+        this.controlPrev.addEventListener('click', this.generate.bind(this));
+        this.currentDayBtn.addEventListener('click', this.generate.bind(this));
 
         this.addEventBtn.addEventListener('click', this.handleEventPopup.bind(this));
         this.addEventPopupClose.addEventListener('click', this.handleEventPopup.bind(this));
@@ -36,15 +36,15 @@ class View extends EventEmitter {
 
     }
 
-    generate() {
-        this.emit('generate');
+    generate(event) {
+
+        let targetId = '';
+
+        if(event !== undefined) targetId = event.currentTarget.id;
+
+        this.emit('generate', targetId);
 
         this.addEventListenerDate();
-    }
-
-    generateAnother(event) {
-        const targetId = event.currentTarget.id;
-        this.emit('generate', targetId);
     }
 
     showCalendarMonth(str) {
@@ -99,7 +99,31 @@ class View extends EventEmitter {
         return elem;
     }
 
-    createEventDetailPopup(event) {
+    handleEvent(event) {
+        const dateItem = event.path[2];
+        const eventPopup = event.path[1];
+        
+        this.emit('checkEvent', { date: dateItem.getAttribute('data-date'), popup: eventPopup });
+    }
+
+    createEvent(popup, date) {
+        const eventNameInp = popup.getElementsByClassName('event-detail__name')[0];
+        const eventTimeInp = popup.getElementsByClassName('event-detail__time')[0];
+        const eventPartyInp = popup.getElementsByClassName('event-detail__party')[0];
+        const eventDescInp = popup.getElementsByClassName('event-detail__desc')[0];
+
+        const eventObj = {
+            name: eventNameInp.value,
+            time: eventTimeInp.value,
+            party: eventPartyInp.value,
+            desc: eventDescInp.value,
+            date: date
+        }
+
+        return eventObj;
+    }
+
+    createEventDetailPopup() {
 
         let eventNameInp = this.createElement('input', {
             type: 'text',
@@ -124,9 +148,9 @@ class View extends EventEmitter {
             placeholder: 'Описание'
         });
 
-        let eventComletedBtn = this.createElement('button', {
-            class: 'event-detail__completed event-detail__btn',
-        }, 'Готово');
+        let eventSaveBtn = this.createElement('button', {
+            class: 'event-detail__save event-detail__btn',
+        }, 'Сохранить');
 
         let eventDelBtn = this.createElement('button', {
             class: 'event-detail__del event-detail__btn',
@@ -136,11 +160,24 @@ class View extends EventEmitter {
             class: 'event-detail__close'
         });
 
+        let eventEditBtn = this.createElement('span', {
+            class: 'event-detail__edit'
+        });
+
+        eventSaveBtn.addEventListener('click', this.handleEvent.bind(this));
+        eventCloseBtn.addEventListener('click', this.closeEventDetailPopup.bind(this));
+        eventEditBtn.addEventListener('click', this.editFieldEventDetail.bind(this));
+
         let container = this.createElement('div', {
             class: 'event-detail active'
-        }, '', eventNameInp, eventTimeInp, eventPartyInp, eventDescInp, eventComletedBtn, eventDelBtn, eventCloseBtn);
+        }, '', eventNameInp, eventTimeInp, eventPartyInp, eventDescInp, eventSaveBtn, eventDelBtn, eventCloseBtn);
 
         return container;
+    }
+
+    closeEventDetailPopup() {
+        let activeEventPopup = document.querySelector('.event-detail.active');
+        activeEventPopup.classList.remove('active');
     }
 
     updateEventDetailPopup(event, popup) {
@@ -158,7 +195,6 @@ class View extends EventEmitter {
 
         for(let i = 0; i < popupChildrenText.length; i++) {
             if(popupChildrenText[i].value != '') {
-                console.log(popupChildrenText[i]);
                 popupChildrenText[i].setAttribute('disabled', 'disabled');
             }
         }
@@ -184,6 +220,10 @@ class View extends EventEmitter {
             dateItem.appendChild(eventPopup);
         }
         
+    }
+
+    editFieldEventDetail(event) {
+
     }
 
     showError(str) {

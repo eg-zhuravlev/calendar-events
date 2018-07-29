@@ -43,7 +43,8 @@ class Model {
                 currentDate.setDate(currentDate.getDate() - (currentDay - 1));
             };
             const currentDateAbb = `${currentDate.getDate()}/${currentDate.getMonth()+1}/${currentDate.getFullYear()}`;
-            const event = this.addEvent(currentDateAbb);
+            const event = this.getTagEvent(currentDateAbb);
+            
 
             const dayObj = {
                 date: currentDateAbb,
@@ -128,7 +129,7 @@ class Model {
         return obj;
     }
 
-    addEvent(date) {
+    getTagEvent(date) {
         const event = this.events.find(item => item.date == date);
         
         if(event === undefined) return false;
@@ -143,6 +144,16 @@ class Model {
         if(event === undefined) return false;
 
         return event;
+    }
+
+    addEvent(event) {
+        this.events.push(event);
+    }
+
+    updateEvent(newEvent) {
+        let eventIndex = this.events.findIndex(item => item.date === newEvent.date);
+        
+        this.events[eventIndex] = newEvent;
     }
     
 }
