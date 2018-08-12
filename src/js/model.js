@@ -82,9 +82,9 @@ class Model {
 
             if(i < 7){
                 let day = week == 1 ? 'Понедельник' : week == 2 ? 'Вторник' : week == 3 ? 'Среда' : week == 4 ? 'Четверг' : week == 5 ? 'Пятница' : week == 6 ? 'Суббота' : week == 7 ? 'Воскресенье' : false;
-                newArr.push(`<td data-date="${currentDate}"><span class="calendar__num">${day}, ${currentDay}</span>${event}${today}</td>`);
+                newArr.push(`<td data-date="${currentDate}" ${event ? "class='date-event'" : ''}><span class="calendar__num">${day}, ${currentDay}</span>${event}${today}</td>`);
             } else {
-                newArr.push(`<td data-date="${currentDate}"><span class="calendar__num">${currentDay}</span>${event}${today}</td>`);
+                newArr.push(`<td data-date="${currentDate}" ${event ? "class='date-event'" : ''}><span class="calendar__num">${currentDay}</span>${event}${today}</td>`);
             };
             
         }
@@ -134,7 +134,7 @@ class Model {
         
         if(event === undefined) return false;
 
-        return `<div class="event"><span class="event__name">${event.name}</span><span class="event__time">${event.time}</span><span class="td-bg event__bg"></span></div>`
+        return `<div class="event"><span class="event__name">${event.name}</span><span class="event__time">${event.time}</span></div>`
         
     }
 
@@ -154,6 +154,12 @@ class Model {
         let eventIndex = this.events.findIndex(item => item.date === newEvent.date);
         
         this.events[eventIndex] = newEvent;
+    }
+
+    delEvent(date) {
+        this.events.forEach(function(item, i, arr){
+            if(item.date === date) arr.splice(i, 1);
+        });
     }
     
 }

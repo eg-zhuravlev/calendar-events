@@ -7,6 +7,7 @@ class Controller {
         view.on('quickCreationEvent', this.quickCreatEvent.bind(this));
         view.on('dateClick', this.dateEvent.bind(this));
         view.on('checkEvent', this.checkEvent.bind(this));
+        view.on('delEvent', this.delEvent.bind(this));
     }
 
     generate(targetId) {
@@ -33,7 +34,6 @@ class Controller {
         const newEvent = this.view.createEvent(obj.popup, obj.date);
 
         if(event) {
-            console.log(newEvent);
             this.updateEvent(newEvent);
         } else {
             this.addEvent(newEvent);
@@ -51,7 +51,6 @@ class Controller {
     }
     
     dateEvent(date) {
-        if(date === null) return false;
 
         const event = this.model.getEvent(date);
 
@@ -60,6 +59,19 @@ class Controller {
         if(event) eventPopup = this.view.updateEventDetailPopup(event, eventPopup);
 
         this.view.showEventDetailPopup(date, eventPopup);
+    }
+
+    delEvent(date) {
+        const event = this.model.getEvent(date);
+
+        if(event) {
+            this.model.delEvent(event.date);
+
+            this.view.generate();
+        } else {
+            this.view.showError('Нет события для удаления.');
+        }
+        
     }
 
     

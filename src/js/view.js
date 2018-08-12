@@ -1,4 +1,4 @@
-import EventEmitter from "./helpers";
+import { createElement, EventEmitter } from "./helpers";
 
 class View extends EventEmitter {
     constructor(){
@@ -25,15 +25,9 @@ class View extends EventEmitter {
         this.addEventPopupClose.addEventListener('click', this.handleEventPopup.bind(this));
         this.createEventBtn.addEventListener('click', this.handleQuickAddEvent.bind(this));
         this.refreshBtn.addEventListener('click', this.generate.bind(this));
+
+        this.tbody.addEventListener('click', this.handleEventDetail.bind(this));
         
-    }
-
-    addEventListeners(event, elems, func) {
-
-        for(let i = 0; i < elems.length; i++) {
-            elems[i].addEventListener(event, func);
-        }
-
     }
 
     generate(event) {
@@ -44,7 +38,6 @@ class View extends EventEmitter {
 
         this.emit('generate', targetId);
 
-        this.addEventListenerDate();
     }
 
     showCalendarMonth(str) {
@@ -53,12 +46,6 @@ class View extends EventEmitter {
 
     showDate(str) {
         this.currentDateStr.innerHTML = str;
-    }
-
-    addEventListenerDate() {
-        const calendarItem = document.querySelectorAll('.calendar td');
-
-        this.addEventListeners('click', calendarItem, this.handleEventDetail.bind(this));
     }
 
     handleEventPopup() {
@@ -73,30 +60,18 @@ class View extends EventEmitter {
     }
 
     handleEventDetail(event) {
-        const targetDate = event.target.getAttribute('data-date');
+
+        const target = event.target;
+        const targetDate = target.getAttribute('data-date');
+
+        if(targetDate === null) return false;
+
+        const dateItems = target.parentNode.parentNode.querySelectorAll('td');
+        dateItems.forEach(item => item.classList.remove('active'));
+
+        event.target.classList.add('active');
 
         this.emit('dateClick', targetDate);
-    }
-
-    //Перенести в helpers
-    createElement(tag, attr, inner, ...child) {
-        let elem = document.createElement(tag);
-
-        if(inner) {
-            elem.innerHTML = inner;
-        };
-
-        for(let key in attr) {
-            elem.setAttribute(key, attr[key])
-        };
-
-        if(child) {
-            for(let i = 0; i < child.length; i++) {
-                elem.appendChild(child[i])
-            };
-        }
-
-        return elem;
     }
 
     handleEvent(event) {
@@ -125,50 +100,57 @@ class View extends EventEmitter {
 
     createEventDetailPopup() {
 
-        let eventNameInp = this.createElement('input', {
+        let eventNameInp = createElement('input', {
             type: 'text',
             class: 'event-detail__name event-detail__inp',
             placeholder: 'Событие'
         });
 
-        let eventTimeInp = this.createElement('input', {
+        let eventTimeInp = createElement('input', {
             type: 'text',
             class: 'event-detail__time event-detail__inp',
             placeholder: 'Время'
         });
 
-        let eventPartyInp = this.createElement('input', {
+        let eventPartyInp = createElement('input', {
             type: 'text',
             class: 'event-detail__party event-detail__inp',
             placeholder: 'Имена участников'
         });
 
-        let eventDescInp = this.createElement('textarea', {
-            class: 'event-detail__desc',
+        let eventDescInp = createElement('textarea', {
+            class: 'event-detail__desc materialize-textarea',
             placeholder: 'Описание'
         });
 
-        let eventSaveBtn = this.createElement('button', {
-            class: 'event-detail__save event-detail__btn',
+        let eventSaveBtn = createElement('button', {
+            class: 'event-detail__save event-detail__btn waves-effect waves-light btn-small',
         }, 'Сохранить');
 
-        let eventDelBtn = this.createElement('button', {
-            class: 'event-detail__del event-detail__btn',
+        let eventDelBtn = createElement('button', {
+            class: 'event-detail__del event-detail__btn waves-effect waves-light btn-small',
         }, 'Удалить');
 
-        let eventCloseBtn = this.createElement('span', {
+        let eventCloseBtn = createElement('span', {
             class: 'event-detail__close'
         });
 
-        let eventEditBtn = this.createElement('span', {
+        let eventEditBtn = createElement('span', {
             class: 'event-detail__edit'
         });
 
+        let eventDetailItem = createElement('div', {
+            class: 'event-detail__item'
+        });
+
+        
+
         eventSaveBtn.addEventListener('click', this.handleEvent.bind(this));
         eventCloseBtn.addEventListener('click', this.closeEventDetailPopup.bind(this));
-        eventEditBtn.addEventListener('click', this.editFieldEventDetail.bind(this));
+        //eventEditBtn.addEventListener('click', this.editFieldEventDetail.bind(this));
+        eventDelBtn.addEventListener('click', this.delEvent.bind(this));
 
-        let container = this.createElement('div', {
+        let container = createElement('div', {
             class: 'event-detail active'
         }, '', eventNameInp, eventTimeInp, eventPartyInp, eventDescInp, eventSaveBtn, eventDelBtn, eventCloseBtn);
 
@@ -178,6 +160,7 @@ class View extends EventEmitter {
     closeEventDetailPopup() {
         let activeEventPopup = document.querySelector('.event-detail.active');
         activeEventPopup.classList.remove('active');
+        activeEventPopup.parentNode.classList.remove('active');
     }
 
     updateEventDetailPopup(event, popup) {
@@ -222,8 +205,11 @@ class View extends EventEmitter {
         
     }
 
-    editFieldEventDetail(event) {
+    delEvent(event) {
+        const dateItem = event.path[2];
+        const eventDate = dateItem.getAttribute('data-date');
 
+        this.emit('delEvent', eventDate);
     }
 
     showError(str) {
