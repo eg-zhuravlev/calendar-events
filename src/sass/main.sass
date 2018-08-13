@@ -135,7 +135,7 @@ body
     width: 303px
     padding: 20px
     position: absolute
-    bottom: -123px
+    bottom: -150px
     display: none
     z-index: 99
     &.active
@@ -219,6 +219,15 @@ body
         background: url(../img/edit.svg) center center / 100% 100% no-repeat
         position: absolute
         cursor: pointer
+        top: 18px
+        right: 10px
+        opacity: 0
+        transition: 0.2s
+    &__item
+        position: relative
+        &:hover
+           .event-detail__edit
+               opacity: 1 
     &__inp,&__desc
         padding-left: 6px
         outline: none
@@ -227,9 +236,13 @@ body
         width: calc(100% - 9px)
         margin-bottom: 10px
         font-size: 14px
+        & ~ .event-detail__edit
+            display: none
         &[disabled='disabled']
             border: none !important
             color: #000 !important
+            & ~ .event-detail__edit
+                display: block
         &::placeholder
             color: #ccc
         &:focus
@@ -265,5 +278,8 @@ body
 
     &.active
         display: block
+
+    
+    
 
        

@@ -100,11 +100,17 @@ class View extends EventEmitter {
 
     createEventDetailPopup() {
 
+        
+
         let eventNameInp = createElement('input', {
             type: 'text',
             class: 'event-detail__name event-detail__inp',
             placeholder: 'Событие'
         });
+
+        eventNameInp = createElement('div', {
+            class: 'event-detail__item'
+        }, '', eventNameInp);
 
         let eventTimeInp = createElement('input', {
             type: 'text',
@@ -112,16 +118,28 @@ class View extends EventEmitter {
             placeholder: 'Время'
         });
 
+        eventTimeInp = createElement('div', {
+            class: 'event-detail__item'
+        }, '', eventTimeInp);
+
         let eventPartyInp = createElement('input', {
             type: 'text',
             class: 'event-detail__party event-detail__inp',
             placeholder: 'Имена участников'
         });
 
+        eventPartyInp = createElement('div', {
+            class: 'event-detail__item'
+        }, '', eventPartyInp);
+
         let eventDescInp = createElement('textarea', {
             class: 'event-detail__desc materialize-textarea',
             placeholder: 'Описание'
         });
+
+        eventDescInp = createElement('div', {
+            class: 'event-detail__item'
+        }, '', eventDescInp);
 
         let eventSaveBtn = createElement('button', {
             class: 'event-detail__save event-detail__btn waves-effect waves-light btn-small',
@@ -138,12 +156,6 @@ class View extends EventEmitter {
         let eventEditBtn = createElement('span', {
             class: 'event-detail__edit'
         });
-
-        let eventDetailItem = createElement('div', {
-            class: 'event-detail__item'
-        });
-
-        
 
         eventSaveBtn.addEventListener('click', this.handleEvent.bind(this));
         eventCloseBtn.addEventListener('click', this.closeEventDetailPopup.bind(this));
@@ -179,6 +191,9 @@ class View extends EventEmitter {
         for(let i = 0; i < popupChildrenText.length; i++) {
             if(popupChildrenText[i].value != '') {
                 popupChildrenText[i].setAttribute('disabled', 'disabled');
+
+                let editEventItem = createElement('i', {class: 'event-detail__edit'});
+                popupChildrenText[i].parentNode.appendChild(editEventItem);
             }
         }
 
