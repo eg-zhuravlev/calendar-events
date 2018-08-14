@@ -100,11 +100,10 @@ class View extends EventEmitter {
 
     createEventDetailPopup() {
 
-        
-
         let eventNameInp = createElement('input', {
             type: 'text',
             class: 'event-detail__name event-detail__inp',
+            id: 'event-name',
             placeholder: 'Событие'
         });
 
@@ -115,6 +114,7 @@ class View extends EventEmitter {
         let eventTimeInp = createElement('input', {
             type: 'text',
             class: 'event-detail__time event-detail__inp',
+            id: 'event-time',
             placeholder: 'Время'
         });
 
@@ -125,6 +125,7 @@ class View extends EventEmitter {
         let eventPartyInp = createElement('input', {
             type: 'text',
             class: 'event-detail__party event-detail__inp',
+            id: 'event-party',
             placeholder: 'Имена участников'
         });
 
@@ -134,6 +135,7 @@ class View extends EventEmitter {
 
         let eventDescInp = createElement('textarea', {
             class: 'event-detail__desc materialize-textarea',
+            id: 'event-desc',
             placeholder: 'Описание'
         });
 
@@ -159,7 +161,6 @@ class View extends EventEmitter {
 
         eventSaveBtn.addEventListener('click', this.handleEvent.bind(this));
         eventCloseBtn.addEventListener('click', this.closeEventDetailPopup.bind(this));
-        //eventEditBtn.addEventListener('click', this.editFieldEventDetail.bind(this));
         eventDelBtn.addEventListener('click', this.delEvent.bind(this));
 
         let container = createElement('div', {
@@ -193,6 +194,7 @@ class View extends EventEmitter {
                 popupChildrenText[i].setAttribute('disabled', 'disabled');
 
                 let editEventItem = createElement('i', {class: 'event-detail__edit'});
+                editEventItem.addEventListener('click', this.editEventField.bind(this));
                 popupChildrenText[i].parentNode.appendChild(editEventItem);
             }
         }
@@ -218,6 +220,12 @@ class View extends EventEmitter {
             dateItem.appendChild(eventPopup);
         }
         
+    }
+
+    editEventField(event) {
+        const eventInp = event.target.parentNode.querySelector('input, textarea');
+        eventInp.disabled = false;
+        eventInp.focus();
     }
 
     delEvent(event) {
