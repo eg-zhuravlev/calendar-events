@@ -30,6 +30,14 @@ class Controller {
     }
 
     checkEvent(obj) {
+
+        const eventName = obj.popup.querySelector('#event-name');
+
+        if(eventName.value === '') {
+            this.view.showError('Запоните название события');
+            return false;
+        };
+
         const event = this.model.getEvent(obj.date);
         const newEvent = this.view.createEvent(obj.popup, obj.date);
 

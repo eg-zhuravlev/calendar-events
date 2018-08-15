@@ -68,7 +68,16 @@ class Model {
             const currentDay = arr[i].date.split('/')[0];
             const currentDate = arr[i].date;
             const event = arr[i].event || '';
-            const today = arr[i].today ? '<span class="td-bg today-bg"></span>' : '';
+            const today = arr[i].today ? 'today' : '';
+            let classStr = '';
+
+            if(today && event) {
+                classStr = 'today date-event';
+            } else if(today) {
+                classStr = 'today';
+            } else if(event) {
+                classStr = 'date-event';
+            };
 
             if(week == 7) {
                 newArr.push('</tr>');
@@ -79,12 +88,11 @@ class Model {
             
             week++;
             
-
             if(i < 7){
                 let day = week == 1 ? 'Понедельник' : week == 2 ? 'Вторник' : week == 3 ? 'Среда' : week == 4 ? 'Четверг' : week == 5 ? 'Пятница' : week == 6 ? 'Суббота' : week == 7 ? 'Воскресенье' : false;
-                newArr.push(`<td data-date="${currentDate}" ${event ? "class='date-event'" : ''}><span class="calendar__num">${day}, ${currentDay}</span>${event}${today}</td>`);
+                newArr.push(`<td data-date="${currentDate}" class="${classStr.length > 0 ? classStr : ''}"><span class="calendar__num">${day}, ${currentDay}</span>${event}</td>`);
             } else {
-                newArr.push(`<td data-date="${currentDate}" ${event ? "class='date-event'" : ''}><span class="calendar__num">${currentDay}</span>${event}${today}</td>`);
+                newArr.push(`<td data-date="${currentDate}" class="${classStr.length > 0 ? classStr : ''}"><span class="calendar__num">${currentDay}</span>${event}</td>`);
             };
             
         }
